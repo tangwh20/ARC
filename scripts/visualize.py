@@ -31,6 +31,10 @@ def add_edge(ax: plt.Axes, matrix: np.ndarray, edge_color: str = 'w'):
     # Get matrix dimensions
     h, w = matrix.shape
 
+    # Use major ticks for labels at the center of each pixel
+    ax.set_xticks(np.arange(w))
+    ax.set_yticks(np.arange(h))
+
     # Set minor ticks to be on the halfway point between pixels
     ax.set_xticks(np.arange(w+1)-.5, minor=True)
     ax.set_yticks(np.arange(h+1)-.5, minor=True)
@@ -44,7 +48,7 @@ def add_edge(ax: plt.Axes, matrix: np.ndarray, edge_color: str = 'w'):
 
 def visualize(version: int, split: str, name: str):
     # Load the data from the JSON file
-    with open(os.path.join(base_path, f"ARC-AGI-{version}", "data", split, f"{name}.json"), "r") as f:
+    with open(os.path.join(base_path, "data", split, f"{name}.json"), "r") as f:
         data = json.load(f)
 
     train_data = data.get('train', [])
@@ -83,7 +87,7 @@ def visualize(version: int, split: str, name: str):
         ax4.set_title(f"Test Output {j+1}")
 
 
-    output_path = os.path.join(base_path, "scripts", "visualizations", f"v{version}", split, f"{name}.png")
+    output_path = os.path.join(base_path, "visualization", split, f"{name}.png")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     plt.tight_layout()
     plt.savefig(output_path, bbox_inches='tight')
@@ -94,6 +98,6 @@ if __name__ == "__main__":
     # visualize(2, "training", "0a938d79")
     version = 2
     split = "training"
-    names = [filename.split(".")[0] for filename in os.listdir(os.path.join(base_path, f"ARC-AGI-{version}", "data", split)) if filename.endswith(".json")]
+    names = [filename.split(".")[0] for filename in os.listdir(os.path.join(base_path, "data", split)) if filename.endswith(".json")]
     for name in tqdm(names, desc=f"Visualizing {version} {split}"):
         visualize(version, split, name)
