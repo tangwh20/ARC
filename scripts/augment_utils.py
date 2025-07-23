@@ -63,6 +63,15 @@ def increase_width(matrix: np.ndarray, factor: int = 2) -> np.ndarray:
         return matrix
     return np.repeat(matrix, factor, axis=1)
 
+def roll_colors(matrix: np.ndarray, shift: int = 1) -> np.ndarray:
+    """Roll the colors of a 2D matrix by a given shift."""
+    if shift == 0:
+        return matrix
+    background = matrix == 0
+    rolled = (matrix - 1 + shift) % 9 + 1
+    rolled[background] = 0
+    return rolled
+
 
 AUGMENTATIONS = {
     0: lambda x: x,  # No augmentation
@@ -78,5 +87,6 @@ AUGMENTATIONS = {
     10: transpose,
     11: increase_resolution,
     12: increase_height,
-    13: increase_width
+    13: increase_width,
+    14: roll_colors
 }
