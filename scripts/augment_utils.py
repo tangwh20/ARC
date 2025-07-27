@@ -72,8 +72,70 @@ def roll_colors(matrix: np.ndarray, shift: int = 1) -> np.ndarray:
     rolled[background] = 0
     return rolled
 
+# ====== 组合增强方法 ======
+
+def combo_rotate90_flip_horizontal(matrix: np.ndarray) -> np.ndarray:
+    """Combination: rotate 90 degrees then flip horizontally."""
+    return flip_horizontal(rotate90(matrix))
+
+def combo_rotate180_flip_vertical(matrix: np.ndarray) -> np.ndarray:
+    """Combination: rotate 180 degrees then flip vertically."""
+    return flip_vertical(rotate180(matrix))
+
+def combo_rotate270_flip_horizontal(matrix: np.ndarray) -> np.ndarray:
+    """Combination: rotate 270 degrees then flip horizontally."""
+    return flip_horizontal(rotate270(matrix))
+
+def combo_rotate90_transpose(matrix: np.ndarray) -> np.ndarray:
+    """Combination: rotate 90 degrees then transpose."""
+    return transpose(rotate90(matrix))
+
+def combo_flip_horizontal_vertical(matrix: np.ndarray) -> np.ndarray:
+    """Combination: flip horizontally then vertically."""
+    return flip_vertical(flip_horizontal(matrix))
+
+def combo_rotate90_roll_colors(matrix: np.ndarray) -> np.ndarray:
+    """Combination: rotate 90 degrees then roll colors."""
+    return roll_colors(rotate90(matrix))
+
+def combo_rotate180_roll_colors(matrix: np.ndarray) -> np.ndarray:
+    """Combination: rotate 180 degrees then roll colors."""
+    return roll_colors(rotate180(matrix))
+
+def combo_flip_horizontal_roll_colors(matrix: np.ndarray) -> np.ndarray:
+    """Combination: flip horizontally then roll colors."""
+    return roll_colors(flip_horizontal(matrix))
+
+def combo_flip_vertical_roll_colors(matrix: np.ndarray) -> np.ndarray:
+    """Combination: flip vertically then roll colors."""
+    return roll_colors(flip_vertical(matrix))
+
+def combo_increase_resolution_rotate90(matrix: np.ndarray) -> np.ndarray:
+    """Combination: increase resolution then rotate 90 degrees."""
+    return rotate90(increase_resolution(matrix))
+
+def combo_increase_resolution_rotate180(matrix: np.ndarray) -> np.ndarray:
+    """Combination: increase resolution then rotate 180 degrees."""
+    return rotate180(increase_resolution(matrix))
+
+def combo_increase_resolution_flip_horizontal(matrix: np.ndarray) -> np.ndarray:
+    """Combination: increase resolution then flip horizontally."""
+    return flip_horizontal(increase_resolution(matrix))
+
+def combo_increase_resolution_flip_vertical(matrix: np.ndarray) -> np.ndarray:
+    """Combination: increase resolution then flip vertically."""
+    return flip_vertical(increase_resolution(matrix))
+
+def combo_transpose_roll_colors(matrix: np.ndarray) -> np.ndarray:
+    """Combination: transpose then roll colors."""
+    return roll_colors(transpose(matrix))
+
+def combo_increase_resolution_rotate90_roll_colors(matrix: np.ndarray) -> np.ndarray:
+    """Combination: increase resolution, rotate 90 degrees, then roll colors."""
+    return roll_colors(rotate90(increase_resolution(matrix)))
 
 AUGMENTATIONS = {
+    # 原始的15种增强方法
     0: lambda x: x,  # No augmentation
     1: rotate90,
     2: rotate180,
@@ -88,5 +150,22 @@ AUGMENTATIONS = {
     11: increase_resolution,
     12: increase_height,
     13: increase_width,
-    14: roll_colors
+    14: roll_colors,
+    
+    # 新增的15种组合增强方法
+    15: combo_rotate90_flip_horizontal,         # rotate90 → flip_horizontal
+    16: combo_rotate180_flip_vertical,          # rotate180 → flip_vertical
+    17: combo_rotate270_flip_horizontal,        # rotate270 → flip_horizontal
+    18: combo_rotate90_transpose,               # rotate90 → transpose
+    19: combo_flip_horizontal_vertical,         # flip_horizontal → flip_vertical
+    20: combo_rotate90_roll_colors,             # rotate90 → roll_colors
+    21: combo_rotate180_roll_colors,            # rotate180 → roll_colors
+    22: combo_flip_horizontal_roll_colors,      # flip_horizontal → roll_colors
+    23: combo_flip_vertical_roll_colors,        # flip_vertical → roll_colors
+    24: combo_increase_resolution_rotate90,     # increase_resolution → rotate90
+    25: combo_increase_resolution_rotate180,    # increase_resolution → rotate180
+    26: combo_increase_resolution_flip_horizontal, # increase_resolution → flip_horizontal
+    27: combo_increase_resolution_flip_vertical,   # increase_resolution → flip_vertical
+    28: combo_transpose_roll_colors,            # transpose → roll_colors
+    29: combo_increase_resolution_rotate90_roll_colors, # 3-step combination
 }
